@@ -1,6 +1,7 @@
 import firebase from 'firebase'
+import { apiKey } from './firebase-key'
 var config = {
-  apiKey: "AIzaSyDyv1mUdvSGs0A4mOYXW8lZMv6rj2sDmCM",
+  apiKey,
   authDomain: "words-3dbfc.firebaseapp.com",
   databaseURL: "https://words-3dbfc.firebaseio.com",
   projectId: "words-3dbfc",
