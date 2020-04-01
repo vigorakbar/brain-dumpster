@@ -1,6 +1,5 @@
 import React from 'react';
 import { makeStyles, TextField } from '@material-ui/core';
-// import debounce from 'lodash.debounce';
 
 const useStyles = makeStyles(() => ({
   textArea: {
@@ -10,6 +9,7 @@ const useStyles = makeStyles(() => ({
 
 const WritingArea = ({ text, setText }) => {
   const classes = useStyles();
+
   const onChangeText = (e) => {
     const text = e.target.value;
     setText(text)
