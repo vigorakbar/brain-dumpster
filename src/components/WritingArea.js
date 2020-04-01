@@ -1,9 +1,6 @@
 import React from 'react';
 import { makeStyles, TextField } from '@material-ui/core';
-import debounce from 'lodash.debounce';
-// import firebase from '../fire';
-
-// const database = firebase.database()
+// import debounce from 'lodash.debounce';
 
 const useStyles = makeStyles(() => ({
   textArea: {
@@ -11,15 +8,10 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const saveToFirebase = debounce(() => {
-  // TODO: save to firebase
-}, 600)
-
 const WritingArea = ({ text, setText }) => {
   const classes = useStyles();
   const onChangeText = (e) => {
     const text = e.target.value;
-    saveToFirebase(text);
     setText(text)
   }
 
