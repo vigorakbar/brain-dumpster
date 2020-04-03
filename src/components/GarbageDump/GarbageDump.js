@@ -9,12 +9,23 @@ import { isSameDay, getCurrentDate, formatFullDate } from 'util/date';
 import WritingArea from './WritingArea';
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    height: 'calc(100vh - 64px)',
+    '@media (max-width: 600px)': {
+      height: 'calc(100vh - 56px)',
+    },
+    display: 'flex',
+    flexDirection: 'column',
+  },
   container: {
+    height: 'calc(100vh - (64px + 3.5rem))',
+    '@media (max-width: 600px)': {
+      height: 'calc(100vh - (56px + 3.5rem))',
+    },
     padding: '2rem 1rem 3rem',
+    overflowY: 'auto',
   },
   footer: {
-    position: 'absolute',
-    bottom: 0,
     width: '100%',
     padding: '12px 12px',
     backgroundColor: 'lightblue',
@@ -90,6 +101,20 @@ const GarbageDump = () => {
       })
   }, [])
 
+  /* handle notification when trash date is not current date */
+  const [dayChanged, setDayChanged] = useState(false)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (trashDate && !isSameDay(trashDate, getCurrentDate())) {
+        setDayChanged(true)
+      }
+    }, 1000 * 30)
+
+    return () => {
+      clearInterval(interval)
+    }
+  }, [trashDate])
+
   /* Writing Actions */
   const [text, setText] = useState('');
   const [count, setCount] = useState(0);
@@ -112,7 +137,7 @@ const GarbageDump = () => {
   }, [count])
 
   return (
-    <React.Fragment>
+    <div className={classes.root}>
       <Container className={classes.container}>
         <Typography variant="h5">{formatFullDate(trashDate)}</Typography>
         <WritingArea
@@ -131,7 +156,7 @@ const GarbageDump = () => {
           </div>
         </div>
       </div>
-    </React.Fragment>
+    </div>
   );
 }
 

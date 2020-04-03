@@ -20,7 +20,7 @@ const WritingArea = ({ text, setText, loading }) => {
       className={classes.textArea}
       multiline
       variant="outlined"
-      rows="16"
+      rows="20"
       fullWidth
       value={text}
       onChange={onChangeText}
