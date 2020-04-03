@@ -3,11 +3,11 @@ import { makeStyles, TextField } from '@material-ui/core';
 
 const useStyles = makeStyles(() => ({
   textArea: {
-    marginTop: '32px',
+    marginTop: '16px',
   },
 }));
 
-const WritingArea = ({ text, setText }) => {
+const WritingArea = ({ text, setText, loading }) => {
   const classes = useStyles();
 
   const onChangeText = (e) => {
@@ -20,10 +20,11 @@ const WritingArea = ({ text, setText }) => {
       className={classes.textArea}
       multiline
       variant="outlined"
-      rows="10"
+      rows="20"
       fullWidth
       value={text}
       onChange={onChangeText}
+      disabled={loading}
     />
   )
 }

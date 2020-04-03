@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import debounce from 'lodash.debounce';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import { Container, LinearProgress, makeStyles } from '@material-ui/core';
+import { Container, LinearProgress, makeStyles, Typography } from '@material-ui/core';
 import dumpster from 'dumpster';
 import { generateNewGarbage } from 'util/garbage';
 import { countWords } from 'util/string';
-import { isSameDay, getCurrentDate } from 'util/date';
+import { isSameDay, getCurrentDate, formatFullDate } from 'util/date';
 import WritingArea from './WritingArea';
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    paddingBottom: '3rem',
+    padding: '2rem 0 3rem',
   },
   footer: {
     position: 'absolute',
@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     padding: '12px 12px',
     backgroundColor: 'lightblue',
     boxSizing: 'border-box',
-    height: '3rem',
+    height: '3.5rem',
     display: 'flex',
     alignItems: 'center',
   },
@@ -28,10 +28,14 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
   },
+  loading: {
+    display: 'relative',
+    top: -2,
+  },
   progress: {
     height: '20px',
     marginRight: '12px',
-    flex: 4,
+    flex: 6,
   },
   count: {
     flex: 1,
@@ -47,6 +51,7 @@ const useStyles = makeStyles((theme) => ({
 const GarbageDump = () => {
   const classes = useStyles();
 
+  const [loading, setLoading] = useState(false)
   const saveProgress = debounce(({ id, content, date, wordCount }) => {
     if (id) {
       dumpster.setItem(`trash/${id}`, {
@@ -58,10 +63,12 @@ const GarbageDump = () => {
   }, 500);
 
   const loadProgress = (id) => {
+    setLoading(true)
     dumpster.getItem(`trash/${id}`)
       .then((res) => {
         setText(res.content)
         setCount(res.wordCount)
+        setLoading(false)
       })
   }
 
@@ -108,10 +115,13 @@ const GarbageDump = () => {
   return (
     <React.Fragment>
       <Container className={classes.container}>
+        <Typography variant="h5">{formatFullDate(trashDate)}</Typography>
         <WritingArea
           text={text}
           setText={setText}
+          loading={loading}
         />
+        {loading && <LinearProgress variant="indeterminate" className={classes.loading} />}
       </Container>
       <div className={classes.footer}>
         <div className={classes.progressWrapper}>
