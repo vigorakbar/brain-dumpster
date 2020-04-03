@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import debounce from 'lodash.debounce';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import { Container, LinearProgress, makeStyles, Typography } from '@material-ui/core';
+import RefreshIcon from '@material-ui/icons/Refresh';
+import { Container, LinearProgress, makeStyles, Typography, SnackbarContent, Collapse, IconButton } from '@material-ui/core';
 import dumpster from 'dumpster';
 import { generateNewGarbage } from 'util/garbage';
 import { countWords } from 'util/string';
@@ -55,6 +56,14 @@ const useStyles = makeStyles((theme) => ({
   },
   progressIcon: {
     marginLeft: '8px',
+  },
+  infoRoot: {
+    maxWidth: '615px',
+    marginBottom: '16px',
+    backgroundColor: theme.palette.info.main,
+  },
+  refreshIcon: {
+    color: 'white',
   }
 }))
 
@@ -108,7 +117,7 @@ const GarbageDump = () => {
       if (trashDate && !isSameDay(trashDate, getCurrentDate())) {
         setDayChanged(true)
       }
-    }, 1000 * 30)
+    }, 30000)
 
     return () => {
       clearInterval(interval)
@@ -139,6 +148,29 @@ const GarbageDump = () => {
   return (
     <div className={classes.root}>
       <Container className={classes.container}>
+        <Collapse in={dayChanged}>
+          <SnackbarContent
+            classes={{ root: classes.infoRoot }}
+            message="This writing is from the past. Refresh this page to save it and start a new writing for today."
+            action={
+              <IconButton
+                edge="start"
+                aria-label="Refresh Page"
+                title="Refresh Page"
+                onClick={() => {
+                  window.location.reload()
+                  return false
+                }}
+                classes={{
+                  colorPrimary: classes.refreshIcon
+                }}
+                color="primary"
+              >
+                <RefreshIcon />
+              </IconButton>
+            }
+          />
+        </Collapse>
         <Typography variant="h5">{formatFullDate(trashDate)}</Typography>
         <WritingArea
           text={text}
