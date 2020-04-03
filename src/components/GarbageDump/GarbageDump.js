@@ -10,7 +10,7 @@ import WritingArea from './WritingArea';
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    padding: '2rem 0 3rem',
+    padding: '2rem 1rem 3rem',
   },
   footer: {
     position: 'absolute',
@@ -47,7 +47,6 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-// TODO: handle loading, disable text area when loading and display loading indicator
 const GarbageDump = () => {
   const classes = useStyles();
 
