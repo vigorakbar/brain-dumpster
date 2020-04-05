@@ -107,7 +107,6 @@ const GarbageDump = () => {
         if (!res || (res && !isSameDay(res.date, currDate))) {
           trashInfo = generateNewGarbage();
         } else {
-          console.log('yooo', res.date)
           trashInfo = { id: res.id, date: res.date };
           loadProgress(res.id)
         }
