@@ -71,29 +71,34 @@ const GarbageDump = () => {
   const classes = useStyles();
 
   const [loading, setLoading] = useState(false)
-  const saveProgress = debounce(({ id, content, date, wordCount }) => {
+  const saveProgress = debounce(({ id, content, date, wordCount, finishedDate: finish }) => {
     if (id) {
+      let finishedDate = finish;
+      if (!finishedDate && wordCount >= 750) finishedDate = getCurrentDate();
       dumpster.setItem(`trash/${id}`, {
         content,
         date,
         wordCount,
+        finishedDate
       })
     }
   }, 500);
 
+  const [finishedDate, setFinishedDate] = useState();
   const loadProgress = (id) => {
-    setLoading(true)
     dumpster.getItem(`trash/${id}`)
       .then((res) => {
         setText(res.content)
         setCount(res.wordCount)
-        setLoading(false)
+        setFinishedDate(res.finishedDate)
       })
   }
 
   const [trashId, setTrashId] = useState();
   const [trashDate, setTrashDate] = useState();
   useEffect(() => {
+    setLoading(true)
+    // TODO: delete line below
     dumpster.iterate((value, key) => console.log(`${key}: ${JSON.stringify(value)}`))
     const currDate = getCurrentDate()
     dumpster.getItem('inProgress')
@@ -102,11 +107,13 @@ const GarbageDump = () => {
         if (!res || (res && !isSameDay(res.date, currDate))) {
           trashInfo = generateNewGarbage();
         } else {
+          console.log('yooo', res.date)
           trashInfo = { id: res.id, date: res.date };
           loadProgress(res.id)
         }
         setTrashId(trashInfo.id);
         setTrashDate(trashInfo.date);
+        setLoading(false)
       })
   }, [])
 
@@ -134,9 +141,10 @@ const GarbageDump = () => {
       id: trashId,
       content: text,
       date: trashDate,
+      finishedDate,
       wordCount
     });
-  }, [text, saveProgress, trashId, trashDate])
+  }, [text, saveProgress, trashId, trashDate, finishedDate])
 
   /* Progress */
   const [progress, setProgress] = useState(0);
