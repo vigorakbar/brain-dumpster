@@ -11,6 +11,7 @@ import FolderIcon from '@material-ui/icons/Folder';
 import GarbageDump from './components/GarbageDump/GarbageDump';
 import { Switch, Route, useHistory } from 'react-router-dom';
 import { Drawer, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
+import Archive from 'components/Archive/Archive';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -90,7 +91,7 @@ export default function App(props) {
           <GarbageDump />
         </Route>
         <Route exact path="/archive">
-          <div>test archive page</div>
+          <Archive />
         </Route>
       </Switch>
     </div>
