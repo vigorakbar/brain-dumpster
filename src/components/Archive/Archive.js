@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { Container, Typography, makeStyles, Card, CardContent, CardActions, Button } from '@material-ui/core';
 import dumpster from 'dumpster';
 import { formatFullDate } from 'util/date'
+import TrashDetail from './TrashDetail';
 
 const PAGE_SIZE = 10;
 
@@ -22,16 +23,21 @@ const useStyles = makeStyles((theme) => ({
   cardsContainer: {
     display: 'flex',
     flexWrap: 'wrap',
+    marginTop: '6px',
   },
   card: {
     flex: '0 1 30%',
     margin: '16px 8px',
-    minWidth: '130px',
+    minWidth: '272px',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
   },
   pagination: {
     display: 'flex',
-    alignItems: 'center'
-  }
+    alignItems: 'center',
+    marginTop: '8px'
+  },
 }))
 
 const Archive = () => {
@@ -63,8 +69,12 @@ const Archive = () => {
   useEffect(() => {
     getTrashList();
   }, [getTrashList, page])
+
+  const [selectedTrash, setSelectedTrash] = useState(null)
+
   return (
     <div className={classes.root}>
+      <TrashDetail selectedTrash={selectedTrash} setSelectedTrash={setSelectedTrash} />
       <Container>
         <Typography variant="h4" className={classes.title}>Archive</Typography>
         <div className={classes.cardsContainer}>
@@ -76,7 +86,7 @@ const Archive = () => {
                 key={fullDate}
               >
                 <CardContent>
-                  <Typography variant="h5" component="h2">
+                  <Typography variant="h5">
                     {fullDate}
                   </Typography>
                   <Typography>
@@ -84,7 +94,7 @@ const Archive = () => {
               </Typography>
                 </CardContent>
                 <CardActions>
-                  <Button size="small">Open</Button>
+                  <Button size="small" onClick={() => setSelectedTrash({ ...data })}>Open</Button>
                 </CardActions>
               </Card>
             )
