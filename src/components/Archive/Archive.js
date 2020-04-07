@@ -6,14 +6,27 @@ import { formatFullDate } from 'util/date'
 const PAGE_SIZE = 10;
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    height: 'calc(100vh - 64px)',
+    '@media (max-width: 600px)': {
+      height: 'calc(100vh - 56px)',
+    },
+    overflow: 'hidden'
+  },
   title: {
     borderBottom: '2px solid lightgrey',
     marginTop: '18px',
     paddingBottom: '6px',
     width: '100%',
   },
+  cardsContainer: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
   card: {
-    marginBottom: '16px',
+    flex: '0 1 30%',
+    margin: '16px 8px',
+    minWidth: '130px',
   },
   pagination: {
     display: 'flex',
@@ -31,9 +44,9 @@ const Archive = () => {
       .then(res => {
         setIds([...res])
       })
-    }, [])
-    
-    const totalPage = Math.ceil(ids.length / 10);
+  }, [])
+
+  const totalPage = Math.ceil(ids.length / 10);
   const [page, setPage] = useState(1);
   const getTrashList = useCallback(() => {
     let firstIdx = PAGE_SIZE * (page - 1)
@@ -51,47 +64,51 @@ const Archive = () => {
     getTrashList();
   }, [getTrashList, page])
   return (
-    <Container>
-      <Typography variant="h4" className={classes.title}>Archive</Typography>
-      {trashList.map(data => {
-        const fullDate = data && formatFullDate(data.date)
-        return (
-          <Card
-            classes={{ root: classes.card }}
-            key={fullDate}
-          >
-            <CardContent>
-              <Typography variant="h5" component="h2">
-                {fullDate}
+    <div className={classes.root}>
+      <Container>
+        <Typography variant="h4" className={classes.title}>Archive</Typography>
+        <div className={classes.cardsContainer}>
+          {trashList.map(data => {
+            const fullDate = data && formatFullDate(data.date)
+            return (
+              <Card
+                classes={{ root: classes.card }}
+                key={fullDate}
+              >
+                <CardContent>
+                  <Typography variant="h5" component="h2">
+                    {fullDate}
+                  </Typography>
+                  <Typography>
+                    {data && data.content.slice(0, 21)}. . .
               </Typography>
-              <Typography>
-                {data && data.content.slice(0, 21)}. . .
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <Button size="small">Open</Button>
-            </CardActions>
-          </Card>
-        )
-      })}
-      <div className={classes.pagination}>
-        <Button
-          disabled={page === 1}
-          onClick={() => setPage(page - 1)}
-        >
-          &lt; Prev
-        </Button>
-        <div>
-          {page} of {totalPage}
+                </CardContent>
+                <CardActions>
+                  <Button size="small">Open</Button>
+                </CardActions>
+              </Card>
+            )
+          })}
         </div>
-        <Button
-          disabled={page === totalPage}
-          onClick={() => setPage(page + 1)}
-        >
-          Next &gt;
+        <div className={classes.pagination}>
+          <Button
+            disabled={page === 1}
+            onClick={() => setPage(page - 1)}
+          >
+            &lt; Prev
         </Button>
-      </div>
-    </Container>
+          <div>
+            {page} of {totalPage}
+          </div>
+          <Button
+            disabled={page === totalPage}
+            onClick={() => setPage(page + 1)}
+          >
+            Next &gt;
+        </Button>
+        </div>
+      </Container>
+    </div>
   )
 }
 
