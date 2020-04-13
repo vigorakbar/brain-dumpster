@@ -22,6 +22,9 @@ const useStyles = makeStyles((theme) => ({
     '& > button': {
       marginRight: '4px',
     }
+  },
+  dialogContent: {
+    whiteSpace: 'pre-wrap',
   }
 }))
 
@@ -54,7 +57,9 @@ const TrashDetail = ({ selectedTrash, setSelectedTrash }) => {
       </DialogTitle>
       <DialogContent>
         <Container>
-          {selectedTrash ? selectedTrash.content : ''}
+          <div className={classes.dialogContent}>
+            {selectedTrash ? selectedTrash.content : ''}
+          </div>
         </Container>
       </DialogContent>
     </Dialog>

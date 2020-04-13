@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Container, Typography, makeStyles, Card, CardContent, CardActions, Button } from '@material-ui/core';
 import dumpster from 'dumpster';
-import { formatFullDate } from 'util/date'
+import { formatFullDate, printTimeCompletion } from 'util/date'
 import TrashDetail from './TrashDetail';
 
 const PAGE_SIZE = 10;
@@ -90,8 +90,16 @@ const Archive = () => {
                     {fullDate}
                   </Typography>
                   <Typography>
-                    {data && data.content.slice(0, 21)}. . .
-              </Typography>
+                    {data && data.content.length > 21 ? data.content.slice(0, 21) + '...' : data.content}
+                  </Typography>
+                  <Typography>
+                    Words Count: {data.wordCount} words
+                  </Typography>
+                  {data.wordCount >= 750 && (
+                    <Typography>
+                      Time Completion: {printTimeCompletion(data.date, data.finishedDate)}
+                    </Typography>
+                  )}
                 </CardContent>
                 <CardActions>
                   <Button size="small" onClick={() => setSelectedTrash({ ...data })}>Open</Button>
