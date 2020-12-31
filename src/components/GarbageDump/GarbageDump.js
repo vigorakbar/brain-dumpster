@@ -98,8 +98,6 @@ const GarbageDump = () => {
   const [trashDate, setTrashDate] = useState();
   useEffect(() => {
     setLoading(true)
-    // TODO: delete line below
-    dumpster.iterate((value, key) => console.log(`${key}: ${JSON.stringify(value)}`))
     const currDate = getCurrentDate()
     dumpster.getItem('inProgress')
       .then((res) => {

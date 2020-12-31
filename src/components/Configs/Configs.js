@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Container, makeStyles, Typography } from '@material-ui/core';
 import ArrowDown from '@material-ui/icons/ArrowDownwardRounded'
 import ArrowUp from '@material-ui/icons/ArrowUpwardRounded'
+import dumpster from 'dumpster';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,7 +28,11 @@ const useStyles = makeStyles((theme) => ({
 
 const Config = () => {
   const classes = useStyles();
-
+  const iterateTest = () => {
+    dumpster.iterate((value, key) => {
+      console.log(key, value)
+    })
+  }
   return (
     <div className={classes.root}>
       <Container>
@@ -41,7 +46,7 @@ const Config = () => {
           </div>
           <div>
             <Typography variant="body1"><b>Export</b> Database to JSON file</Typography>
-            <Button variant="contained" color="primary" startIcon={<ArrowUp />}>Export</Button>
+            <Button onClick={iterateTest} variant="contained" color="primary" startIcon={<ArrowUp />}>Export</Button>
           </div>
         </div>
       </Container>
