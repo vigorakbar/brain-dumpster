@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import debounce from 'lodash.debounce';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import { Container, LinearProgress, makeStyles, Typography } from '@material-ui/core';
+import RefreshIcon from '@material-ui/icons/Refresh';
+import { Container, LinearProgress, makeStyles, Typography, SnackbarContent, Collapse, IconButton } from '@material-ui/core';
 import dumpster from 'dumpster';
 import { generateNewGarbage } from 'util/garbage';
 import { countWords } from 'util/string';
@@ -9,12 +10,23 @@ import { isSameDay, getCurrentDate, formatFullDate } from 'util/date';
 import WritingArea from './WritingArea';
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    height: 'calc(100vh - 64px)',
+    '@media (max-width: 600px)': {
+      height: 'calc(100vh - 56px)',
+    },
+    display: 'flex',
+    flexDirection: 'column',
+  },
   container: {
-    padding: '2rem 0 3rem',
+    height: 'calc(100vh - (64px + 3.5rem))',
+    '@media (max-width: 600px)': {
+      height: 'calc(100vh - (56px + 3.5rem))',
+    },
+    padding: '2rem 1rem 3rem',
+    overflowY: 'auto',
   },
   footer: {
-    position: 'absolute',
-    bottom: 0,
     width: '100%',
     padding: '12px 12px',
     backgroundColor: 'lightblue',
@@ -44,37 +56,49 @@ const useStyles = makeStyles((theme) => ({
   },
   progressIcon: {
     marginLeft: '8px',
+  },
+  infoRoot: {
+    maxWidth: '615px',
+    marginBottom: '16px',
+    backgroundColor: theme.palette.info.main,
+  },
+  refreshIcon: {
+    color: 'white',
   }
 }))
 
-// TODO: handle loading, disable text area when loading and display loading indicator
 const GarbageDump = () => {
   const classes = useStyles();
 
   const [loading, setLoading] = useState(false)
-  const saveProgress = debounce(({ id, content, date, wordCount }) => {
+  const saveProgress = debounce(({ id, content, date, wordCount, finishedDate: finish }) => {
     if (id) {
+      let finishedDate = finish;
+      if (!finishedDate && wordCount >= 750) finishedDate = getCurrentDate();
       dumpster.setItem(`trash/${id}`, {
         content,
         date,
         wordCount,
+        finishedDate
       })
     }
   }, 500);
 
+  const [finishedDate, setFinishedDate] = useState();
   const loadProgress = (id) => {
-    setLoading(true)
     dumpster.getItem(`trash/${id}`)
       .then((res) => {
         setText(res.content)
         setCount(res.wordCount)
-        setLoading(false)
+        setFinishedDate(res.finishedDate)
       })
   }
 
   const [trashId, setTrashId] = useState();
   const [trashDate, setTrashDate] = useState();
   useEffect(() => {
+    setLoading(true)
+    // TODO: delete line below
     dumpster.iterate((value, key) => console.log(`${key}: ${JSON.stringify(value)}`))
     const currDate = getCurrentDate()
     dumpster.getItem('inProgress')
@@ -88,8 +112,23 @@ const GarbageDump = () => {
         }
         setTrashId(trashInfo.id);
         setTrashDate(trashInfo.date);
+        setLoading(false)
       })
   }, [])
+
+  /* handle notification when trash date is not current date */
+  const [dayChanged, setDayChanged] = useState(false)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (trashDate && !isSameDay(trashDate, getCurrentDate())) {
+        setDayChanged(true)
+      }
+    }, 30000)
+
+    return () => {
+      clearInterval(interval)
+    }
+  }, [trashDate])
 
   /* Writing Actions */
   const [text, setText] = useState('');
@@ -101,9 +140,10 @@ const GarbageDump = () => {
       id: trashId,
       content: text,
       date: trashDate,
+      finishedDate,
       wordCount
     });
-  }, [text, saveProgress, trashId, trashDate])
+  }, [text, saveProgress, trashId, trashDate, finishedDate])
 
   /* Progress */
   const [progress, setProgress] = useState(0);
@@ -113,8 +153,31 @@ const GarbageDump = () => {
   }, [count])
 
   return (
-    <React.Fragment>
+    <div className={classes.root}>
       <Container className={classes.container}>
+        <Collapse in={dayChanged}>
+          <SnackbarContent
+            classes={{ root: classes.infoRoot }}
+            message="This writing is from the past. Refresh this page to save it and start a new writing for today."
+            action={
+              <IconButton
+                edge="start"
+                aria-label="Refresh Page"
+                title="Refresh Page"
+                onClick={() => {
+                  window.location.reload()
+                  return false
+                }}
+                classes={{
+                  colorPrimary: classes.refreshIcon
+                }}
+                color="primary"
+              >
+                <RefreshIcon />
+              </IconButton>
+            }
+          />
+        </Collapse>
         <Typography variant="h5">{formatFullDate(trashDate)}</Typography>
         <WritingArea
           text={text}
@@ -132,7 +195,7 @@ const GarbageDump = () => {
           </div>
         </div>
       </div>
-    </React.Fragment>
+    </div>
   );
 }
 
