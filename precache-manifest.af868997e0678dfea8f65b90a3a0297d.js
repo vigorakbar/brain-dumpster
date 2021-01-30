@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "394c79c46e92c643fae6c81d204ed685",
+    "revision": "f61d060086f40a1a513e67d8acc0338f",
     "url": "/brain-dumpster/index.html"
   },
   {
-    "revision": "bc277306b13d3899730d",
+    "revision": "44954da3b03578cf01ef",
     "url": "/brain-dumpster/static/css/main.5ecd60fb.chunk.css"
   },
   {
-    "revision": "85ce59e376d6354eebf2",
-    "url": "/brain-dumpster/static/js/2.2071a08f.chunk.js"
+    "revision": "f566439cb5f9c1af4b5b",
+    "url": "/brain-dumpster/static/js/2.fd5b0d2d.chunk.js"
   },
   {
     "revision": "0749163b59fbee32225059cb60c18af6",
-    "url": "/brain-dumpster/static/js/2.2071a08f.chunk.js.LICENSE.txt"
+    "url": "/brain-dumpster/static/js/2.fd5b0d2d.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "bc277306b13d3899730d",
-    "url": "/brain-dumpster/static/js/main.4501ecd6.chunk.js"
+    "revision": "44954da3b03578cf01ef",
+    "url": "/brain-dumpster/static/js/main.4726fac9.chunk.js"
   },
   {
     "revision": "036c9dbd955a2eb0a28e",

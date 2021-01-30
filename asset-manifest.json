@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/brain-dumpster/static/css/main.5ecd60fb.chunk.css",
-    "main.js": "/brain-dumpster/static/js/main.4501ecd6.chunk.js",
-    "main.js.map": "/brain-dumpster/static/js/main.4501ecd6.chunk.js.map",
+    "main.js": "/brain-dumpster/static/js/main.4726fac9.chunk.js",
+    "main.js.map": "/brain-dumpster/static/js/main.4726fac9.chunk.js.map",
     "runtime-main.js": "/brain-dumpster/static/js/runtime-main.55be3e3d.js",
     "runtime-main.js.map": "/brain-dumpster/static/js/runtime-main.55be3e3d.js.map",
-    "static/js/2.2071a08f.chunk.js": "/brain-dumpster/static/js/2.2071a08f.chunk.js",
-    "static/js/2.2071a08f.chunk.js.map": "/brain-dumpster/static/js/2.2071a08f.chunk.js.map",
+    "static/js/2.fd5b0d2d.chunk.js": "/brain-dumpster/static/js/2.fd5b0d2d.chunk.js",
+    "static/js/2.fd5b0d2d.chunk.js.map": "/brain-dumpster/static/js/2.fd5b0d2d.chunk.js.map",
     "index.html": "/brain-dumpster/index.html",
-    "precache-manifest.ae411067bd6400e2d3ee1ab86c557bee.js": "/brain-dumpster/precache-manifest.ae411067bd6400e2d3ee1ab86c557bee.js",
+    "precache-manifest.af868997e0678dfea8f65b90a3a0297d.js": "/brain-dumpster/precache-manifest.af868997e0678dfea8f65b90a3a0297d.js",
     "service-worker.js": "/brain-dumpster/service-worker.js",
     "static/css/main.5ecd60fb.chunk.css.map": "/brain-dumpster/static/css/main.5ecd60fb.chunk.css.map",
-    "static/js/2.2071a08f.chunk.js.LICENSE.txt": "/brain-dumpster/static/js/2.2071a08f.chunk.js.LICENSE.txt"
+    "static/js/2.fd5b0d2d.chunk.js.LICENSE.txt": "/brain-dumpster/static/js/2.fd5b0d2d.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.55be3e3d.js",
-    "static/js/2.2071a08f.chunk.js",
+    "static/js/2.fd5b0d2d.chunk.js",
     "static/css/main.5ecd60fb.chunk.css",
-    "static/js/main.4501ecd6.chunk.js"
+    "static/js/main.4726fac9.chunk.js"
   ]
 }
